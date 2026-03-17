@@ -9,7 +9,7 @@ const MOSQUES = [
     sectorEn: "D-12 Markaz",
     sectorUr: "D-12 Markaz",
     streetEn: "Behind Carrefour",
-    streetUr: "حقیب کارڈور",
+    streetUr: "عقب کاررفور",
     time: "06:45",
     women: true,
     lat: 33.70321057534957,
