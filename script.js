@@ -1,4 +1,3 @@
-const DEFAULT_TIME_24H = "06:45";
 const LANG_STORAGE_KEY = "eid_timings_d12_lang_v1";
 
 const MOSQUES = [
@@ -14,6 +13,19 @@ const MOSQUES = [
     women: true,
     lat: 33.70321057534957,
     lng: 72.94724225018842,
+  },
+  {
+    id: "ashab-e-suffa",
+    nameEn: "Jamia Masjid Ashab-e-Suffa",
+    nameUr: "جامعہ مسجد اصحابِ صفہ",
+    sectorEn: "D-12/2",
+    sectorUr: "D-12/2",
+    streetEn: "Street 39",
+    streetUr: "39",
+    time: "07:00",
+    women: false,
+    lat: 33.70568999882358,
+    lng: 72.943999480695,
   },
   {
     id: "siddiqa-qadriya",
@@ -42,17 +54,30 @@ const MOSQUES = [
     lng: 72.94529149822651,
   },
   {
-    id: "ashab-e-suffa",
-    nameEn: "Jamia Masjid Ashab-e-Suffa",
-    nameUr: "جامعہ مسجد اصحابِ صفہ",
+    id: "gulshan-habib",
+    nameEn: "Jamia Masjid Gulshan Habib",
+    nameUr: "جامعہ مسجد گلشن حبیب",
     sectorEn: "D-12/2",
     sectorUr: "D-12/2",
-    streetEn: "Street 39",
-    streetUr: "39",
-    time: "07:00",
+    streetEn: "Street 46",
+    streetUr: "46",
+    time: "07:15",
     women: false,
-    lat: 33.70568999882358,
-    lng: 72.943999480695,
+    lat: 33.70342796201811,
+    lng: 72.94055406879005,
+  },
+  {
+    id: "maqsood-ul-uloom",
+    nameEn: "Jamia Masjid Maqsood ul Uloom",
+    nameUr: "جامعہ مسجد مقصود العلوم",
+    sectorEn: "D-12 Markaz",
+    sectorUr: "D-12 Markaz",
+    streetEn: "Behind SOS Center / Allied Bank, near Najeeb Mart",
+    streetUr: "عقب سوس سینٹر/ الائیڈ بنک، نزد نجیب مارٹ",
+    time: "07:30",
+    women: true,
+    lat: 33.70030383673561,
+    lng: 72.94954873767173,
   },
   {
     id: "syeda-amina",
@@ -68,19 +93,6 @@ const MOSQUES = [
     lng: 72.95426727746475,
   },
   {
-    id: "gulshan-habib",
-    nameEn: "Jamia Masjid Gulshan Habib",
-    nameUr: "جامعہ مسجد گلشن حبیب",
-    sectorEn: "D-12/2",
-    sectorUr: "D-12/2",
-    streetEn: "Street 46",
-    streetUr: "46",
-    time: "07:15",
-    women: false,
-    lat: 33.70342796201811,
-    lng: 72.94055406879005,
-  },
-  {
     id: "syedna-ali",
     nameEn: "Jamia Masjid Syedna Ali",
     nameUr: "جامعہ مسجد سیدنا علی",
@@ -93,51 +105,78 @@ const MOSQUES = [
     lat: 33.706375421400345,
     lng: 72.95244798259296,
   },
-  {
-    id: "maqsood-ul-uloom",
-    nameEn: "Jamia Masjid Maqsood ul Uloom",
-    nameUr: "جامعہ مسجد مقصود العلوم",
-    sectorEn: "D-12 Markaz",
-    sectorUr: "D-12 Markaz",
-    streetEn: "Behind SOS Center / Allied Bank, near Najeeb Mart",
-    streetUr: "عقب سوس سینٹر/ الائیڈ بنک ، نزد نجیب مارٹ",
-    time: "07:30",
-    women: true,
-    lat: 33.70030383673561,
-    lng: 72.94954873767173,
-  },
-  {
-    id: "auliya",
-    nameEn: "Jamia Masjid Auliya",
-    nameUr: "جامعہ مسجد اولیاء",
-    sectorEn: "Green Belt",
-    sectorUr: "گرین بیلٹ",
-    streetEn: "Service Road South (near Grid Station)",
-    streetUr: "سروس روڈ ساوتھ نزد گرڈ اسٹیشن",
-    time: "07:30",
-    women: false,
-    lat: 33.69757923240884,
-    lng: 72.95365029598663,
-  },
 ];
+
+const TEXT = {
+  en: {
+    greetingTitle: "Eid Mubarak",
+    greetingBody:
+      "May Allah accept our عبادات, forgive our shortcomings, and bless our homes with peace.",
+    mapCta: "Open in Google Maps",
+    womenYes: "Women: ✓",
+    womenNo: "Women: ✗",
+    passed: "Prayer time passed",
+    leftSuffix: "left",
+    footerBuilt: "Built for the D-12 community.",
+    footerSign: "Humble requester of prayers, Amer Butt",
+    footerNote: "Please cross-check addresses before leaving.",
+    emptyState: "No mosques to show.",
+  },
+  ur: {
+    greetingTitle: "عید مبارک",
+    greetingBody:
+      "اللہ ہماری عبادات قبول فرمائے، ہماری کوتاہیوں کو معاف فرمائے اور ہمارے گھروں میں سکون عطا فرمائے۔",
+    mapCta: "گوگل میپس میں کھولیں",
+    womenYes: "خواتین: ✓",
+    womenNo: "خواتین: ✗",
+    passed: "نماز کا وقت گزر چکا ہے",
+    leftSuffix: "باقی",
+    footerBuilt: "D-12 کمیونٹی کے لیے تیار کیا گیا۔",
+    footerSign: "دعاؤں کا طالبگار، عامر بٹ",
+    footerNote: "براہِ کرم روانگی سے پہلے پتے کی تصدیق کر لیں۔",
+    emptyState: "دکھانے کے لیے کوئی مسجد موجود نہیں۔",
+  },
+};
 
 function parseISODateParam(value) {
   if (!value) return null;
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
   if (!match) return null;
+
   const year = Number(match[1]);
   const month = Number(match[2]);
   const day = Number(match[3]);
   if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) return null;
-  const d = new Date(year, month - 1, day);
-  if (d.getFullYear() !== year || d.getMonth() !== month - 1 || d.getDate() !== day) return null;
-  d.setHours(0, 0, 0, 0);
-  return d;
+
+  const date = new Date(year, month - 1, day);
+  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+    return null;
+  }
+
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
+function getFixedEidDate() {
+  const params = new URLSearchParams(window.location.search);
+  const fromQuery = parseISODateParam(params.get("date"));
+  if (fromQuery) return fromQuery;
+  return new Date(2026, 2, 21);
+}
+
+function getInitialLang() {
+  const saved = localStorage.getItem(LANG_STORAGE_KEY);
+  return saved === "ur" || saved === "en" ? saved : "en";
+}
+
+function sortMosquesByTime(items) {
+  return items.slice().sort((left, right) => left.time.localeCompare(right.time));
 }
 
 function to12h(time24h) {
-  const [hh, mm] = String(time24h || "").split(":").map((v) => Number(v));
+  const [hh, mm] = String(time24h || "").split(":").map(Number);
   if (!Number.isFinite(hh) || !Number.isFinite(mm)) return String(time24h || "");
+
   const ampm = hh >= 12 ? "PM" : "AM";
   const hour12 = ((hh + 11) % 12) + 1;
   return `${hour12}:${String(mm).padStart(2, "0")} ${ampm}`;
@@ -149,35 +188,18 @@ function buildMapsUrl(mosque) {
       `${mosque.lat},${mosque.lng}`,
     )}`;
   }
+
   const query = [mosque.nameEn, mosque.sectorEn, mosque.streetEn].filter(Boolean).join(", ");
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
-function getFixedEidDate() {
-  const params = new URLSearchParams(window.location.search);
-  const fromQuery = parseISODateParam(params.get("date"));
-  if (fromQuery) return fromQuery;
-  // Eid prayer date confirmed by user: Saturday, March 21, 2026
-  return new Date(2026, 2, 21);
-}
-
 function computeTargetDate(time24h, fixedDate) {
-  const [hh, mm] = String(time24h || "").split(":").map((v) => Number(v));
+  const [hh, mm] = String(time24h || "").split(":").map(Number);
   const hour = Number.isFinite(hh) ? hh : 0;
   const minute = Number.isFinite(mm) ? mm : 0;
 
-  if (fixedDate) {
-    const target = new Date(fixedDate);
-    target.setHours(hour, minute, 0, 0);
-    return target;
-  }
-
-  const now = new Date();
-  const target = new Date(now);
+  const target = new Date(fixedDate);
   target.setHours(hour, minute, 0, 0);
-  if (target.getTime() <= now.getTime()) {
-    target.setDate(target.getDate() + 1);
-  }
   return target;
 }
 
@@ -213,48 +235,8 @@ function pinSvg() {
   `;
 }
 
-const TEXT = {
-  en: {
-    greetingTitle: "Eid Mubarak",
-    greetingBody:
-      "May Allah accept our عبادات, forgive our shortcomings, and bless our homes with peace.",
-    defaultTimeLabel: "Default time",
-    countdownDateLabel: "Countdown date",
-    countdownAuto: "Auto (today/next)",
-    mapCta: "Open in Google Maps",
-    womenYes: "Women: ✓",
-    womenNo: "Women: ✗",
-    passed: "Prayer time passed",
-    leftSuffix: "left",
-    footerBuilt: "Built for the D-12 community.",
-    footerSign: "Humble requester of prayers, Amer Butt",
-    footerNote: "Please cross-check addresses before leaving.",
-  },
-  ur: {
-    greetingTitle: "عید مبارک",
-    greetingBody: "اللہ ہماری عبادات قبول فرمائے، ہماری کوتاہیوں کو معاف فرمائے اور ہمارے گھروں میں سکون عطا فرمائے۔",
-    defaultTimeLabel: "ڈیفالٹ وقت",
-    countdownDateLabel: "تاریخ",
-    countdownAuto: "آٹو (آج/اگلا)",
-    mapCta: "گوگل میپس میں کھولیں",
-    womenYes: "خواتین: ✓",
-    womenNo: "خواتین: ✗",
-    passed: "نماز کا وقت گزر چکا ہے",
-    leftSuffix: "باقی",
-    footerBuilt: "D-12 کمیونٹی کے لیے تیار کیا گیا۔",
-    footerSign: "دعاؤں کا طالبگار، عامر بٹ",
-    footerNote: "براہِ کرم روانگی سے پہلے پتے کی تصدیق کر لیں۔",
-  },
-};
-
-function getInitialLang() {
-  const saved = localStorage.getItem(LANG_STORAGE_KEY);
-  if (saved === "ur" || saved === "en") return saved;
-  return "en";
-}
-
 let lang = getInitialLang();
-let mosques = MOSQUES.slice();
+let mosques = sortMosquesByTime(MOSQUES);
 
 const fixedEidDate = getFixedEidDate();
 
@@ -263,13 +245,16 @@ function applyLanguageToStaticText() {
 
   const title = document.getElementById("greeting-title");
   if (title) title.textContent = t.greetingTitle;
+
   const body = document.getElementById("greeting-body");
   if (body) body.textContent = t.greetingBody;
 
   const footerBuilt = document.getElementById("footer-built");
   if (footerBuilt) footerBuilt.textContent = t.footerBuilt;
+
   const footerSign = document.getElementById("footer-sign");
   if (footerSign) footerSign.textContent = t.footerSign;
+
   const footerNote = document.getElementById("footer-note");
   if (footerNote) footerNote.textContent = t.footerNote;
 
@@ -280,24 +265,23 @@ function applyLanguageToStaticText() {
 
   document.documentElement.setAttribute("dir", lang === "ur" ? "rtl" : "ltr");
   document.documentElement.setAttribute("lang", lang === "ur" ? "ur" : "en");
-
 }
 
 function renderMosques() {
   const list = document.getElementById("mosque-list");
   if (!list) return;
+
   list.innerHTML = "";
 
-  const visible = mosques;
-  if (!visible.length) {
+  if (!mosques.length) {
     const empty = document.createElement("div");
     empty.className = "muted";
-    empty.textContent = "No mosques to show.";
+    empty.textContent = TEXT[lang].emptyState;
     list.appendChild(empty);
     return;
   }
 
-  for (const m of visible) {
+  for (const mosque of mosques) {
     const article = document.createElement("article");
     article.className = "card";
 
@@ -310,22 +294,21 @@ function renderMosques() {
     const left = document.createElement("div");
     const name = document.createElement("div");
     name.className = "name";
-    name.textContent = lang === "ur" ? m.nameUr : m.nameEn;
+    name.textContent = lang === "ur" ? mosque.nameUr : mosque.nameEn;
+
     const address = document.createElement("div");
     address.className = "address";
-    const addressPrimary =
+    address.textContent =
       lang === "ur"
-        ? `${m.sectorUr || ""}${m.streetUr ? ` — ${m.streetUr}` : ""}`
-        : `${m.sectorEn || ""}${m.streetEn ? ` • ${m.streetEn}` : ""}`;
-    address.textContent = addressPrimary.trim();
+        ? `${mosque.sectorUr}${mosque.streetUr ? ` - ${mosque.streetUr}` : ""}`
+        : `${mosque.sectorEn}${mosque.streetEn ? ` • ${mosque.streetEn}` : ""}`;
 
     const secondary = document.createElement("div");
     secondary.className = "secondary-line";
-    const addressSecondary =
+    secondary.textContent =
       lang === "ur"
-        ? `${m.sectorEn || ""}${m.streetEn ? ` • ${m.streetEn}` : ""}`
-        : `${m.sectorUr || ""}${m.streetUr ? ` — ${m.streetUr}` : ""}`;
-    secondary.textContent = (lang === "ur" ? m.nameEn : m.nameUr) + " • " + addressSecondary.trim();
+        ? `${mosque.nameEn} • ${mosque.sectorEn}${mosque.streetEn ? ` • ${mosque.streetEn}` : ""}`
+        : `${mosque.nameUr} • ${mosque.sectorUr}${mosque.streetUr ? ` - ${mosque.streetUr}` : ""}`;
 
     left.appendChild(name);
     left.appendChild(address);
@@ -333,7 +316,7 @@ function renderMosques() {
 
     const badge = document.createElement("div");
     badge.className = "badge";
-    badge.textContent = to12h(m.time);
+    badge.textContent = to12h(mosque.time);
 
     top.appendChild(left);
     top.appendChild(badge);
@@ -343,12 +326,12 @@ function renderMosques() {
 
     const women = document.createElement("div");
     women.className = "pill";
-    women.textContent = m.women ? TEXT[lang].womenYes : TEXT[lang].womenNo;
+    women.textContent = mosque.women ? TEXT[lang].womenYes : TEXT[lang].womenNo;
 
     const countdown = document.createElement("div");
     countdown.className = "countdown";
-    countdown.id = `cd-${m.id}`;
-    countdown.textContent = "Calculating…";
+    countdown.id = `cd-${mosque.id}`;
+    countdown.textContent = lang === "ur" ? "حساب ہو رہا ہے..." : "Calculating...";
 
     meta.appendChild(women);
     meta.appendChild(countdown);
@@ -358,7 +341,7 @@ function renderMosques() {
 
     const mapLink = document.createElement("a");
     mapLink.className = "map-link";
-    mapLink.href = buildMapsUrl(m);
+    mapLink.href = buildMapsUrl(mosque);
     mapLink.target = "_blank";
     mapLink.rel = "noopener noreferrer";
     mapLink.innerHTML = `${pinSvg()} ${TEXT[lang].mapCta}`;
@@ -376,18 +359,20 @@ function renderMosques() {
 
 function updateCountdowns() {
   const now = new Date();
-  for (const m of mosques) {
-    const el = document.getElementById(`cd-${m.id}`);
-    if (!el) continue;
 
-    const target = computeTargetDate(m.time, fixedEidDate);
+  for (const mosque of mosques) {
+    const countdown = document.getElementById(`cd-${mosque.id}`);
+    if (!countdown) continue;
+
+    const target = computeTargetDate(mosque.time, fixedEidDate);
     const diff = target.getTime() - now.getTime();
+
     if (diff <= 0) {
-      el.textContent = TEXT[lang].passed;
-      el.classList.add("passed");
+      countdown.textContent = TEXT[lang].passed;
+      countdown.classList.add("passed");
     } else {
-      el.textContent = formatCountdownLocalized(diff);
-      el.classList.remove("passed");
+      countdown.textContent = formatCountdownLocalized(diff);
+      countdown.classList.remove("passed");
     }
   }
 }
