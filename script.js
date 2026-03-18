@@ -114,7 +114,7 @@ const MOSQUES = [
     sectorUr: "گرین بیلٹ",
     streetEn: "Service Road South (near Grid Station)",
     streetUr: "سروس روڈ ساوتھ نزد گرڈ اسٹیشن",
-    time: "08:25",
+    time: "07:30",
     women: false,
     lat: 33.69757923240884,
     lng: 72.95365029598663,
