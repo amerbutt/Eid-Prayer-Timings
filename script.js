@@ -72,7 +72,7 @@ const MOSQUES = [
     nameUr: "جامعہ مسجد مقصود العلوم",
     sectorEn: "D-12 Markaz",
     sectorUr: "D-12 Markaz",
-    streetEn: "Behind SOS Center / Allied Bank, near Najeeb Mart",
+    streetEn: "Behind Swiss Center / Allied Bank, near Najeeb Mart",
     streetUr: "عقب سوس سینٹر/ الائیڈ بنک، نزد نجیب مارٹ",
     time: "07:30",
     women: true,
