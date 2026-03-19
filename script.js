@@ -72,7 +72,7 @@ const MOSQUES = [
     nameUr: "جامعہ مسجد مقصود العلوم",
     sectorEn: "D-12 Markaz",
     sectorUr: "D-12 Markaz",
-    streetEn: "Behind Swiss Center / Allied Bank, near Najeeb Mart",
+    streetEn: "Behind SOS Center / Allied Bank, near Najeeb Mart",
     streetUr: "عقب سوس سینٹر/ الائیڈ بنک، نزد نجیب مارٹ",
     time: "07:30",
     women: true,
@@ -173,6 +173,22 @@ function sortMosquesByTime(items) {
   return items.slice().sort((left, right) => left.time.localeCompare(right.time));
 }
 
+function sortMosquesByUpcoming(items) {
+  const now = new Date();
+  return items.slice().sort((a, b) => {
+    const aTarget = computeTargetDate(a.time, fixedEidDate);
+    const bTarget = computeTargetDate(b.time, fixedEidDate);
+    const aDiff = aTarget.getTime() - now.getTime();
+    const bDiff = bTarget.getTime() - now.getTime();
+    const aUpcoming = aDiff > 0;
+    const bUpcoming = bDiff > 0;
+    // Upcoming mosques first (soonest first), then passed ones sorted by time
+    if (aUpcoming && !bUpcoming) return -1;
+    if (!aUpcoming && bUpcoming) return 1;
+    return a.time.localeCompare(b.time);
+  });
+}
+
 function to12h(time24h) {
   const [hh, mm] = String(time24h || "").split(":").map(Number);
   if (!Number.isFinite(hh) || !Number.isFinite(mm)) return String(time24h || "");
@@ -236,9 +252,12 @@ function pinSvg() {
 }
 
 let lang = getInitialLang();
-let mosques = sortMosquesByTime(MOSQUES);
+let mosques = sortMosquesByTime(MOSQUES); // will be re-sorted after fixedEidDate is set
 
 const fixedEidDate = getFixedEidDate();
+
+// Now that fixedEidDate is available, sort so upcoming mosques appear first
+mosques = sortMosquesByUpcoming(MOSQUES);
 
 function applyLanguageToStaticText() {
   const t = TEXT[lang];
@@ -303,16 +322,8 @@ function renderMosques() {
         ? `${mosque.sectorUr}${mosque.streetUr ? ` - ${mosque.streetUr}` : ""}`
         : `${mosque.sectorEn}${mosque.streetEn ? ` • ${mosque.streetEn}` : ""}`;
 
-    const secondary = document.createElement("div");
-    secondary.className = "secondary-line";
-    secondary.textContent =
-      lang === "ur"
-        ? `${mosque.nameEn} • ${mosque.sectorEn}${mosque.streetEn ? ` • ${mosque.streetEn}` : ""}`
-        : `${mosque.nameUr} • ${mosque.sectorUr}${mosque.streetUr ? ` - ${mosque.streetUr}` : ""}`;
-
     left.appendChild(name);
     left.appendChild(address);
-    left.appendChild(secondary);
 
     const badge = document.createElement("div");
     badge.className = "badge";
@@ -359,6 +370,7 @@ function renderMosques() {
 
 function updateCountdowns() {
   const now = new Date();
+  let needsReorder = false;
 
   for (const mosque of mosques) {
     const countdown = document.getElementById(`cd-${mosque.id}`);
@@ -366,14 +378,23 @@ function updateCountdowns() {
 
     const target = computeTargetDate(mosque.time, fixedEidDate);
     const diff = target.getTime() - now.getTime();
+    const wasPassed = countdown.classList.contains("passed");
 
     if (diff <= 0) {
       countdown.textContent = TEXT[lang].passed;
       countdown.classList.add("passed");
+      if (!wasPassed) needsReorder = true; // just crossed over — move to bottom
     } else {
       countdown.textContent = formatCountdownLocalized(diff);
       countdown.classList.remove("passed");
     }
+  }
+
+  // Re-sort and re-render if a mosque just finished so order stays live
+  if (needsReorder) {
+    mosques = sortMosquesByUpcoming(MOSQUES);
+    renderMosques();
+    updateCountdowns(); // re-run to fill in fresh text after re-render
   }
 }
 
@@ -383,6 +404,7 @@ function setLanguage(next) {
   applyLanguageToStaticText();
   renderMosques();
   updateCountdowns();
+  updateNextPrayerBanner();
 }
 
 document.getElementById("btn-en")?.addEventListener("click", () => setLanguage("en"));
@@ -391,4 +413,45 @@ document.getElementById("btn-ur")?.addEventListener("click", () => setLanguage("
 renderMosques();
 applyLanguageToStaticText();
 updateCountdowns();
-setInterval(updateCountdowns, 1000);
+updateNextPrayerBanner();
+setInterval(() => { updateCountdowns(); updateNextPrayerBanner(); }, 1000);
+
+function updateNextPrayerBanner() {
+  const now = new Date();
+  const upcoming = MOSQUES
+    .map(m => ({ mosque: m, diff: computeTargetDate(m.time, fixedEidDate).getTime() - now.getTime() }))
+    .filter(x => x.diff > 0)
+    .sort((a, b) => a.diff - b.diff);
+
+  const banner = document.querySelector(".next-prayer-banner");
+  const labelEl = document.getElementById("next-prayer-label");
+  const nameEl = document.getElementById("next-prayer-name");
+  const metaEl = document.getElementById("next-prayer-meta");
+  const timeEl = document.getElementById("next-prayer-time");
+  const cdEl = document.getElementById("next-prayer-cd");
+
+  if (!banner || !nameEl || !timeEl || !cdEl) return;
+
+  if (!upcoming.length) {
+    banner.classList.add("all-passed");
+    if (labelEl) labelEl.textContent = lang === "ur" ? "تمام نمازیں" : "All Prayers";
+    nameEl.textContent = lang === "ur" ? "تمام نمازیں ادا ہو چکی ہیں" : "All prayers have passed";
+    if (metaEl) metaEl.textContent = "";
+    timeEl.textContent = "";
+    cdEl.textContent = lang === "ur" ? "عید مبارک!" : "Eid Mubarak!";
+    return;
+  }
+
+  banner.classList.remove("all-passed");
+  const { mosque, diff } = upcoming[0];
+
+  if (labelEl) labelEl.textContent = lang === "ur" ? "اگلی نماز" : "Next Prayer";
+  nameEl.textContent = lang === "ur" ? mosque.nameUr : mosque.nameEn;
+  if (metaEl) {
+    metaEl.textContent = lang === "ur"
+      ? `${mosque.sectorUr}${mosque.streetUr ? ` - ${mosque.streetUr}` : ""}`
+      : `${mosque.sectorEn}${mosque.streetEn ? ` • ${mosque.streetEn}` : ""}`;
+  }
+  timeEl.textContent = to12h(mosque.time);
+  cdEl.textContent = formatCountdownLocalized(diff);
+}

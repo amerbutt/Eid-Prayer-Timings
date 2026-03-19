@@ -372,6 +372,107 @@ main {
   font-size: 0.92rem;
 }
 
+/* NEXT PRAYER BANNER */
+.next-prayer-wrap {
+  margin-bottom: 18px;
+}
+
+.next-prayer-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  background: linear-gradient(
+    135deg,
+    rgba(250, 204, 21, 0.13) 0%,
+    rgba(250, 204, 21, 0.05) 60%,
+    rgba(52, 211, 153, 0.08) 100%
+  );
+  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.08), var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.next-prayer-banner::before {
+  content: "";
+  position: absolute;
+  inset: -80px -80px auto auto;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.next-prayer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.next-prayer-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+.next-prayer-name {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.next-prayer-meta {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.next-prayer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.next-prayer-time {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.next-prayer-cd {
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
+.next-prayer-banner.all-passed .next-prayer-time {
+  color: var(--muted-2);
+}
+
+@media (max-width: 480px) {
+  .next-prayer-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .next-prayer-right {
+    align-items: flex-start;
+  }
+}
+
 /* PRINT */
 @media print {
   body {
