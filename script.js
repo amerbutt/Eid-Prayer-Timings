@@ -111,7 +111,7 @@ const TEXT = {
   en: {
     greetingTitle: "Eid Mubarak",
     greetingBody:
-      "May Allah accept our عبادات, forgive our shortcomings, and bless our homes with peace.",
+      "May Allah accept our Qurbani, forgive our shortcomings, and bless our homes with peace.",
     mapCta: "Open in Google Maps",
     womenYes: "Women: ✓",
     womenNo: "Women: ✗",
@@ -125,7 +125,7 @@ const TEXT = {
   ur: {
     greetingTitle: "عید مبارک",
     greetingBody:
-      "اللہ ہماری عبادات قبول فرمائے، ہماری کوتاہیوں کو معاف فرمائے اور ہمارے گھروں میں سکون عطا فرمائے۔",
+      "اللہ ہماری قربانی قبول فرمائے، ہماری کوتاہیوں کو معاف فرمائے اور ہمارے گھروں میں سکون عطا فرمائے۔",
     mapCta: "گوگل میپس میں کھولیں",
     womenYes: "خواتین: ✓",
     womenNo: "خواتین: ✗",
