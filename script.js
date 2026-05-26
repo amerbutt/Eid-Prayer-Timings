@@ -161,7 +161,7 @@ function getFixedEidDate() {
   const params = new URLSearchParams(window.location.search);
   const fromQuery = parseISODateParam(params.get("date"));
   if (fromQuery) return fromQuery;
-  return new Date(2026, 5, 27);
+  return new Date(2026, 4, 27);
 }
 
 function getInitialLang() {
